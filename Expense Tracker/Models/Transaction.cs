@@ -20,5 +20,4 @@ public partial class Transaction
 
     public DateTime Date { get; set; } = DateTime.Now; 
 
-
 }
