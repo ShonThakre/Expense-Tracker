@@ -118,6 +118,7 @@ namespace Expense_Tracker.Controllers
         // GET: Category/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
