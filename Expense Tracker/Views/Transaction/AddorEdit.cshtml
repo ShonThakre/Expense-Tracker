@@ -9,8 +9,9 @@
     <div class="col-md-7">
 
         <div class="widget p-5" style="background-color:#212b36">
-            <form asp-action="Create">
+            <form asp-action="AddorEdit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="TransactionId" value="@Model.TransactionId" />
                 <div class="mb-3">
                     <ejs-datepicker id="date" ejs-for="Date"
                                     placeholder="Date" floatLabelType="Always"
@@ -25,19 +26,17 @@
                     </ejs-dropdownlist>
                 </div>
                 <div class="mb-3">
-                    <ejs-numerictextbox id="amount" value="10" type="text"
-                                        placeholder="Amount" floatLabelType="Always"></ejs-numerictextbox>
+                    <ejs-numerictextbox id="amount" value="10" type="text" ejs-for="Amount"
+                                      format="c0" min="0" placeholder="Amount" floatLabelType="Always"></ejs-numerictextbox>
                     <span asp-validation-for="Amount" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Note" class="control-label"></label>
-                    <input asp-for="Note" class="form-control" />
+                    <ejs-textbox id="note" placeholder="Note" ejs-for="Note" 
+                    multiline="true" floatLabelType="Always"></ejs-textbox>
                     <span asp-validation-for="Note" class="text-danger"></span>
                 </div>
 
-                <div class="mb-3">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
+                <ejs-button id="submit" cssClass="e-success" type="submit" content="Submit"></ejs-button>
             </form>
         </div>
     </div>
