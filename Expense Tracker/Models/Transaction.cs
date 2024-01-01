@@ -10,9 +10,11 @@ public partial class Transaction
     [Key]
     public int TransactionId { get; set; }
 
+    [Range(1,int.MaxValue,ErrorMessage ="Please Select a category.")]
     public int CategoryId { get; set; }
-    public Category? Category { get; set; } 
+    public Category? Category { get; set; }
 
+    [Range(1, int.MaxValue, ErrorMessage = "Please Select a category.")]
     public int Amount { get; set; }
 
     [Column(TypeName = "nvarchar(75)")]
