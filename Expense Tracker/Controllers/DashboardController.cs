@@ -57,9 +57,43 @@ namespace Expense_Tracker.Controllers
                     categoryTitleWithIcon = k.First().Category.Icon + " " + k.First().Category.Title,
                     amount = k.Sum(j => j.Amount),
                     formattedAmount = k.Sum(j => j.Amount).ToString("C0"),
+                })
+                .OrderByDescending(l => l.amount)
+                .ToList();
+
+
+            //Spline Chart - Income vs Expense
+            //Income
+            List<SplineChartData> IncomeSummery = SelectedTransactions
+                .Where(i => i.Category.Type == "Income")
+                .GroupBy(j => j.Date)
+                .Select(k => new SplineChartData()
+                {
+                    day = k.First().Date.ToString("dd-MMM"),
+                    income = k.Sum(l => l.Amount)
                 }).ToList();
+
+            //Expense
+            List<SplineChartData> ExpenseSummery = SelectedTransactions
+                .Where(i => i.Category.Type == "Expense")
+                .GroupBy(j => j.Date)
+                .Select(k => new SplineChartData()
+                {
+                    day = k.First().Date.ToString("dd-MMM"),
+                    expense = k.Sum(l => l.Amount)
+                }).ToList();
+
+            //Combine Income and Expense
+            
 
             return View();
         }
+    }
+
+    public class SplineChartData
+    {
+        public string day;
+        public int income;
+        public int expense;
     }
 }
