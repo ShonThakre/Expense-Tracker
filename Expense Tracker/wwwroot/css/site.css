@@ -48,10 +48,7 @@ body {
 }
 
 
-.widget{
-    border-radius:1rem;
-    background-color:#1a222b;
-}
+
 
 
 .e-grid{
@@ -86,3 +83,21 @@ body {
     text-decoration:none !important;
     color: inherit !important;
 }
+
+.main-content{
+    margin-left:290px;
+}
+
+#sidebar{
+    background-color: #12161d;
+    border-right:1px dashed rgba(75, 82, 0, 24);
+    padding: 10px, 20px;
+}
+
+
+
+.widget {
+    border-radius: 1rem;
+    background-color: #1a222b;
+}
+
