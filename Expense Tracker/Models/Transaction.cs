@@ -14,7 +14,7 @@ public partial class Transaction
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
 
-    [Range(1, int.MaxValue, ErrorMessage = "Please Select a category.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Please enter Amount.")]
     public int Amount { get; set; }
 
     [Column(TypeName = "nvarchar(75)")]
