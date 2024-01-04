@@ -1,13 +1,16 @@
+
 ﻿using Expense_Tracker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Globalization;
 
+
 namespace Expense_Tracker.Controllers
 {
     public class DashboardController : Controller
     {
+
         private readonly ApplicatonDbContext _context;
 
         public DashboardController(ApplicatonDbContext context)
@@ -96,4 +99,5 @@ namespace Expense_Tracker.Controllers
         public int income;
         public int expense;
     }
+]
 }
