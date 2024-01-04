@@ -12,7 +12,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection"))
 var app = builder.Build();
 
 //Register Syncfusion license
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF5cWWJCf1FpR2VGfV5yd0VPal9WTnVXUiweQnxTdEZiW35XcH1WQWNUUUd+WQ==");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2UVhhQlVFfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5SdkFjWXpec3NURGJd");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
