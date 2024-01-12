@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+   
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +15,10 @@
 
 </head>
 <body class="e-bigger">
-    @if (User.Identity.IsAuthenticated)
+    @{
+        bool isIdentityArea = ViewContext.ActionDescriptor.RouteValues["area"] == "Identity";
+    }
+    @if (User.Identity.IsAuthenticated && !isIdentityArea)
     {
         <partial name="_SideBar" />
 
@@ -22,20 +26,18 @@
             <div class="container-fluid">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <div>
-                    <i class="fa-solid fa-bell"></i>
-                    <i class="fa-solid fa-message"></i>
+          
+                    <partial name="_LoginPartial" />
                 </div>
+                
             </div>
         </nav>
 
     }
  
-
-
-
     <div class="main-content">
-        <div class="container mt-5">
-            @if (User.Identity.IsAuthenticated)
+        <div class="container mt-1">
+            @if (User.Identity.IsAuthenticated && !isIdentityArea)
             {
                 <div class="row justify-content-center">
                     <div class="@(ViewData["isDashboard"] == null? "col-md-10":"col-md-12")">
