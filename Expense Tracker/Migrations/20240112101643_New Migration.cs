@@ -6,46 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Expense_Tracker.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityAdded : Migration
+    public partial class NewMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_transactions_categories_CategoryId",
-                table: "transactions");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_transactions",
-                table: "transactions");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_categories",
-                table: "categories");
-
-            migrationBuilder.RenameTable(
-                name: "transactions",
-                newName: "Transactions");
-
-            migrationBuilder.RenameTable(
-                name: "categories",
-                newName: "Categories");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_transactions_CategoryId",
-                table: "Transactions",
-                newName: "IX_Transactions_CategoryId");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Transactions",
-                table: "Transactions",
-                column: "TransactionId");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Categories",
-                table: "Categories",
-                column: "CategoryId");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -191,6 +156,56 @@ namespace Expense_Tracker.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(5)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(10)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.ForeignKey(
+                        name: "FK_Categories_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(75)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                    table.ForeignKey(
+                        name: "FK_Transactions_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Transactions_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -230,22 +245,25 @@ namespace Expense_Tracker.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Transactions_Categories_CategoryId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Id",
+                table: "Categories",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_CategoryId",
                 table: "Transactions",
-                column: "CategoryId",
-                principalTable: "Categories",
-                principalColumn: "CategoryId",
-                onDelete: ReferentialAction.Cascade);
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_Id",
+                table: "Transactions",
+                column: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Transactions_Categories_CategoryId",
-                table: "Transactions");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -262,49 +280,16 @@ namespace Expense_Tracker.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Transactions");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Transactions",
-                table: "Transactions");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Categories",
-                table: "Categories");
-
-            migrationBuilder.RenameTable(
-                name: "Transactions",
-                newName: "transactions");
-
-            migrationBuilder.RenameTable(
-                name: "Categories",
-                newName: "categories");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Transactions_CategoryId",
-                table: "transactions",
-                newName: "IX_transactions_CategoryId");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_transactions",
-                table: "transactions",
-                column: "TransactionId");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_categories",
-                table: "categories",
-                column: "CategoryId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_transactions_categories_CategoryId",
-                table: "transactions",
-                column: "CategoryId",
-                principalTable: "categories",
-                principalColumn: "CategoryId",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }

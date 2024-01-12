@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,4 +26,8 @@ public partial class Category
             return this.Icon + " " + this.Title;
         } }
 
+
+    public string Id {  get; set; }
+    [ForeignKey("Id")]
+    public IdentityUser UserId { get; set; }
 }

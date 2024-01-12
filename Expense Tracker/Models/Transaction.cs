@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,6 +24,10 @@ public partial class Transaction
     public string? Note { get; set; }
 
     public DateTime Date { get; set; } = DateTime.Now;
+
+    public string Id { get; set; }
+    [ForeignKey("Id")]
+    public IdentityUser UserId { get; set; }
 
     [NotMapped]
     public string? CategoryTitlewithIcon {
