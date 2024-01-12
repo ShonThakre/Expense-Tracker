@@ -26,8 +26,13 @@ public partial class Category
             return this.Icon + " " + this.Title;
         } }
 
+    //public string? Id {  get; set; } 
+    //[ForeignKey("Id")]
+    //public IdentityUser? UserId { get; set; }
 
-    public string Id {  get; set; }
-    [ForeignKey("Id")]
-    public IdentityUser UserId { get; set; }
+    public string? UserId { get; set; }
+
+    [ForeignKey("UserId")]
+    public IdentityUser? User { get; set; }
+
 }

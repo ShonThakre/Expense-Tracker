@@ -5,51 +5,56 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
+<style>
+    /* Center the container in the middle of the page */
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+</style>
+
+<div class="container">
+    <div class=" justify-content-center align-items-center d-flex">
+        <div class="widget p-5 "style="width:600px">
+            <h1>@ViewData["Title"]</h1>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
                     <ejs-textbox id="email" placeholder="Email" ejs-for="Input.Email" floatLabelType="Always"></ejs-textbox>
-@*                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label> *@
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <ejs-textbox id="password" placeholder="Password" type="password" autocomplete="current-password" ejs-for="Input.Password" floatLabelType="Always"></ejs-textbox>
-@*                     <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label> *@
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="checkbox mb-3">
                     <label asp-for="Input.RememberMe" class="form-label">
                         <ejs-checkbox id="default" ejs-for="Input.RememberMe" label="@Html.DisplayNameFor(m => m.Input.RememberMe)" checked="true"></ejs-checkbox>
-                        @* <input class="form-check-input" asp-for="Input.RememberMe" /> *@
                         
                     </label>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    @* <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button> *@
+                    <ejs-button id="login-submit" cssClass="e-success" type="submit" class="w-100 btn btn-lg" content="Log in"></ejs-button>
                 </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
+                <div class="d-flex justify-content-between">
+                   
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot password?</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                  
                 </div>
             </form>
-        </section>
+    
     </div>
-    <div class="col-md-6 col-md-offset-2">
+    @* <div class="col-md-6 col-md-offset-2">
         <section>
             <h3>Use another service to log in.</h3>
             <hr />
@@ -78,9 +83,9 @@
                 }
             }
         </section>
-    </div>
+    </div> *@
 </div>
-
+</div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

@@ -25,9 +25,10 @@ public partial class Transaction
 
     public DateTime Date { get; set; } = DateTime.Now;
 
-    public string Id { get; set; }
-    [ForeignKey("Id")]
-    public IdentityUser UserId { get; set; }
+    public string? UserId { get; set; }
+
+    [ForeignKey("UserId")]
+    public IdentityUser? User { get; set; }
 
     [NotMapped]
     public string? CategoryTitlewithIcon {

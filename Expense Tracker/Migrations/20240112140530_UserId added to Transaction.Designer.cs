@@ -4,6 +4,7 @@ using Expense_Tracker.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Expense_Tracker.Migrations
 {
     [DbContext(typeof(ApplicatonDbContext))]
-    partial class ApplicatonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240112140530_UserId added to Transaction")]
+    partial class UserIdaddedtoTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

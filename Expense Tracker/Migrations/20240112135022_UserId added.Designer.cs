@@ -4,6 +4,7 @@ using Expense_Tracker.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Expense_Tracker.Migrations
 {
     [DbContext(typeof(ApplicatonDbContext))]
-    partial class ApplicatonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240112135022_UserId added")]
+    partial class UserIdadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,17 +72,17 @@ namespace Expense_Tracker.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(75)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("TransactionId");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Id");
 
                     b.ToTable("Transactions");
                 });
@@ -303,13 +306,13 @@ namespace Expense_Tracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UserId")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("Id");
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

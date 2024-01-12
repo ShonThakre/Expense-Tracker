@@ -6,22 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Expense_Tracker.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Expense_Tracker.Controllers
 {
     public class CategoryController : Controller
     {
         private readonly ApplicatonDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CategoryController(ApplicatonDbContext context)
+        public CategoryController(ApplicatonDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Category
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            string? UserId = _userManager.GetUserId(HttpContext.User);
+            return View(await _context.Categories.Where(x => x.UserId == UserId).ToListAsync());
         }
 
 
@@ -49,7 +54,8 @@ namespace Expense_Tracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(category.CategoryId == 0) 
+                category.UserId = _userManager.GetUserId(HttpContext.User);
+                if (category.CategoryId == 0) 
                 _context.Add(category);
                 else
                     _context.Update(category);

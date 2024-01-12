@@ -6,22 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Expense_Tracker.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Expense_Tracker.Controllers
 {
     public class TransactionController : Controller
     {
         private readonly ApplicatonDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public TransactionController(ApplicatonDbContext context)
+        public TransactionController(ApplicatonDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Transaction
         public async Task<IActionResult> Index()
         {
-            var applicatonDbContext = _context.Transactions.Include(t => t.Category);
+            string? UserId = _userManager.GetUserId(HttpContext.User);
+            var applicatonDbContext = _context.Transactions.Where(x=> x.UserId == UserId).Include(t => t.Category);
             return View(await applicatonDbContext.ToListAsync());
         }
 
@@ -52,7 +56,9 @@ namespace Expense_Tracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(transaction.TransactionId == 0)
+                transaction.UserId = _userManager.GetUserId(HttpContext.User);
+
+                if (transaction.TransactionId == 0)
                 {
                     _context.Add(transaction);
                 }
@@ -85,7 +91,8 @@ namespace Expense_Tracker.Controllers
         [NonAction]
         public void PopulateCategories()
         {
-            var CategoryCollection = _context.Categories.ToList();
+            string? UserId = _userManager.GetUserId(HttpContext.User);
+            var CategoryCollection = _context.Categories.Where(x => x.UserId == UserId).ToList();
             Category DefaultCategory = new Category()
             {
                 CategoryId = 0,

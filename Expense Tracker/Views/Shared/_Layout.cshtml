@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-   
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +14,7 @@
     <script src="https://cdn.syncfusion.com/ej2/24.1.41/dist/ej2.min.js"></script>
 
 </head>
-<body class="e-bigger">
+<body class="e-bigger overflow-hidden">
     @{
         bool isIdentityArea = ViewContext.ActionDescriptor.RouteValues["area"] == "Identity";
     }
@@ -26,19 +26,18 @@
             <div class="container-fluid">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <div>
-          
                     <partial name="_LoginPartial" />
                 </div>
-                
+
             </div>
         </nav>
 
     }
- 
-    <div class="main-content">
-        <div class="container mt-1">
-            @if (User.Identity.IsAuthenticated && !isIdentityArea)
-            {
+    @if (User.Identity.IsAuthenticated && !isIdentityArea)
+    {
+        <div class="main-content">
+            <div class="container mt-1">
+
                 <div class="row justify-content-center">
                     <div class="@(ViewData["isDashboard"] == null? "col-md-10":"col-md-12")">
                         <main role="main" class="pb-3">
@@ -58,14 +57,10 @@
                                                             @ViewData["PageActionText"]
                                                         </a>
                                                     }
-
                                                 </div>
                                             </div>
-
                                             <ejs-breadcrumb id="breadcrumb"
                                                             separatorTemplate="@Html.Raw("<span class='fa-solid fa-angle-right'></span>")"></ejs-breadcrumb>
-
-
                                         </div>
                                     </div>
 
@@ -75,18 +70,18 @@
                         </main>
                     </div>
                 </div>
-            }
-            else
-            {
-                @RenderBody()
-            }
-            
 
+
+
+            </div>
         </div>
-    </div>
-    
+    }
+    else
+    {
+        @RenderBody()
+    }
 
-    
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
