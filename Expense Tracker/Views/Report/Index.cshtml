@@ -1,0 +1,64 @@
+﻿@model Expense_Tracker.Controllers.ReportController.ReportViewModel
+
+
+@{
+    int days = (int)DateTime.Now.DayOfWeek;
+    DateTime lastMonth = DateTime.Now.AddMonths(-1);
+    var weekStart = DateTime.Now.AddDays(-days);
+    var weekEnd = weekStart.AddDays(6);
+    var monthStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    var monthEnd = monthStart.AddMonths(1).AddDays(-1);
+    var lastMonthStart = new DateTime(lastMonth.Year, lastMonth.Month, 1);
+    var lastMonthEnd = lastMonthStart.AddMonths(1).AddDays(-1);
+    var lastYearStart = new DateTime(DateTime.Now.Year - 1, 1, 1);
+    var lastYearEnd = new DateTime(DateTime.Now.Year - 1, 12, 31);
+}
+
+
+
+
+<form asp-action="index">
+<div class="row widget p-4">
+
+    <div class=" col-md-3">
+        <div class=" control-section">
+            <div id="wrapper" class="daterangepicker-section">
+                <div id="daterangepicker-control">
+                        <ejs-daterangepicker id="presets" ejs-for="DateRange" floatLabelType=Always placeholder="Choose Date Range" format="dd/MM/yyyy">
+                        <e-daterangepicker-presets>
+                            <e-daterangepicker-preset id="week" label="This Week" start="weekStart" end="weekEnd"></e-daterangepicker-preset>
+                            <e-daterangepicker-preset id="month" label="This Month" start="monthStart" end="monthEnd"></e-daterangepicker-preset>
+                            <e-daterangepicker-preset id="lastmonth" label="Last Month" start="lastMonthStart" end="lastMonthEnd"></e-daterangepicker-preset>
+                            <e-daterangepicker-preset id="year" label="Last Year" start="lastYearStart" end="lastYearEnd"></e-daterangepicker-preset>
+                        </e-daterangepicker-presets>
+                    </ejs-daterangepicker>
+                        <span asp-validation-for="DateRange" class="text-danger fs-6"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" col-md-3">
+            <ejs-dropdownlist id="ddlType" dataSource="@Model.Types" placeholder="Type" ejs-for="SelectedType"
+                              floatLabelType="Always" allowFiltering="false" ignoreAccent="true">
+                <e-dropdownlist-fields value="Value" text="Text"></e-dropdownlist-fields>
+            </ejs-dropdownlist>
+            <span asp-validation-for="SelectedType" class="text-danger fs-6"></span>
+
+
+
+    </div>
+    <div class="col-md-3">
+            <ejs-dropdownlist id="ddlCategory" ejs-for="CategoryId"
+                          dataSource="@ViewBag.categories" placeholder="Category"
+                          floatLabelType="Always" allowFiltering="false" ignoreAccent="true">
+            <e-dropdownlist-fields value="CategoryId" text="TitleWithIcon"></e-dropdownlist-fields>
+        </ejs-dropdownlist>
+            <span asp-validation-for="CategoryId" class="text-danger fs-6"></span>
+    </div>
+        <div class="col-md-3">
+            <ejs-button id="submit" cssClass="e-success"  type="submit" content="Submit"></ejs-button>
+        </div>
+
+
+</div>
+</form>
