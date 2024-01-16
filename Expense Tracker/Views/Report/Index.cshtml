@@ -23,6 +23,8 @@
     <div class=" col-md-3">
         <div class=" control-section">
             <div id="wrapper" class="daterangepicker-section">
+                    <input type="hidden" asp-for="DateRange[0]" />
+                    <input type="hidden" asp-for="DateRange[1]" />
                 <div id="daterangepicker-control">
                         <ejs-daterangepicker id="presets" ejs-for="DateRange" floatLabelType=Always placeholder="Choose Date Range" format="dd/MM/yyyy">
                         <e-daterangepicker-presets>
@@ -62,3 +64,6 @@
 
 </div>
 </form>
+<div class="row widget p-4">
+    @Html.Raw(ViewBag.HtmlString)
+</div>
