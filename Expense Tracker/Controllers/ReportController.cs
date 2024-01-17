@@ -37,9 +37,15 @@ namespace Expense_Tracker.Controllers
         [HttpPost]
         public IActionResult Index(ReportViewModel reportViewModel)
         {
-   
 
-   
+                
+       
+                if (string.IsNullOrEmpty(reportViewModel.DateRange[0]) && string.IsNullOrEmpty(reportViewModel.DateRange[1]))
+                {
+                    ModelState.AddModelError(nameof(reportViewModel.DateRange), "Please select a valid date range.");
+                }
+                
+         
             if (ModelState.IsValid)
             {
                 string? UserId = _userManager.GetUserId(HttpContext.User);
@@ -55,23 +61,25 @@ namespace Expense_Tracker.Controllers
                 DateTime.TryParseExact(reportViewModel.DateRange[0], "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out SelectedDate1);
                 DateTime.TryParseExact(reportViewModel.DateRange[1], "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out SelectedDate2);
 
-                //var ReportData = _context.Transactions.Where(x => x.UserId == UserId
-                //&& x.Date >= SelectedDate1
-                //&& x.Date <= SelectedDate1
-                //);
+
 
                 var ReportData = _context.Transactions
-        .Where(x => x.UserId == UserId
-            && x.Date >= SelectedDate1
-            && x.Date <= SelectedDate2)
-        .Select(x => new
-        {
-            x.Amount,
-            x.Date,
-            x.Category.Title, // Assuming Category is a navigation property in the Transaction class
-            x.Category.Type
-        })
-        .ToList();
+                    .Where(x => x.UserId == UserId
+                                && x.Date >= SelectedDate1
+                                && x.Date <= SelectedDate2
+                                && ((x.Category.Type == "Income") || (x.Category.Type == "Expense")
+
+                                   )
+                    )
+                    .Select(x => new
+                    {
+                        x.Amount,
+                        x.Date,
+                        x.Category.Title,
+                        x.Category.Type
+                    })
+                    .ToList();
+
 
                 StringBuilder htmlString = new StringBuilder();
 
@@ -100,10 +108,8 @@ namespace Expense_Tracker.Controllers
 
                 return View(reportViewModel);
             }
-            else
-            {
-                ModelState.AddModelError(nameof(reportViewModel.DateRange), "Please select a valid date range.");
-            }
+
+            PopulateDdl(reportViewModel);
             return View(reportViewModel);
             
         }
@@ -111,6 +117,7 @@ namespace Expense_Tracker.Controllers
         [NonAction]
         public void PopulateDdl(ReportViewModel reportViewModel)
         {
+
             reportViewModel.Types = new List<SelectListItem>
     {
         new SelectListItem { Value = "0", Text = "Select Type" },
@@ -123,7 +130,7 @@ namespace Expense_Tracker.Controllers
 
             // Populate Categories
             string? UserId = _userManager.GetUserId(HttpContext.User);
-            reportViewModel.Categories = _context.Categories.Where(x => x.UserId == UserId).ToList();
+            reportViewModel.Categories = _context.Categories.Where(x => x.UserId.ToString() == UserId).ToList();
             reportViewModel.Categories.Insert(0, new Category { CategoryId = 0, Title = "Choose a Category" });
 
             ViewBag.categories = reportViewModel.Categories;
@@ -136,7 +143,8 @@ namespace Expense_Tracker.Controllers
                 // Set default value for SelectedType
                 SelectedType = "0"; // Assuming "0" corresponds to "Select Type"
                 CategoryId = 0; // Assuming 0 corresponds to the default category
-                DateRange = new string[2] { DateTime.Today.ToString("dd/MM/yyyy").Replace('-','/'), DateTime.Today.ToString("dd/MM/yyyy").Replace('-', '/') };
+                DateRange = new string[2];
+
             }
 
             [Range(1, int.MaxValue, ErrorMessage = "Please Select Type.")]
@@ -145,9 +153,8 @@ namespace Expense_Tracker.Controllers
             [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
             public int CategoryId { get; set; }
 
-            [Required(ErrorMessage = "Please select a date range.")]
-            [MinLength(1, ErrorMessage = "Please select a date range.")]
-            public string[] DateRange { get; set; }
+            [Required(ErrorMessage = "Please select a date range.")]           
+            public string[] DateRange { get; set; } 
 
             [ValidateNever]
             public List<SelectListItem> Types { get; set; }
