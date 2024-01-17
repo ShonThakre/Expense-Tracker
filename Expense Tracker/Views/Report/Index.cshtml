@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class=" col-md-3">
-            <ejs-dropdownlist id="ddlType" dataSource="@Model.Types" placeholder="Type" ejs-for="SelectedType"
+            <ejs-dropdownlist id="ddlType" onchange="" dataSource="@Model.Types" placeholder="Type" ejs-for="SelectedType"
                               floatLabelType="Always" allowFiltering="false" ignoreAccent="true">
                 <e-dropdownlist-fields value="Value" text="Text"></e-dropdownlist-fields>
             </ejs-dropdownlist>
@@ -67,5 +67,7 @@
 <div class="row widget p-4">
     @Html.Raw(ViewBag.HtmlString)
 </div>
+
+
 
 

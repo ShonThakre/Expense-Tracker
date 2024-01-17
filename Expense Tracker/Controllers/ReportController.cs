@@ -166,6 +166,19 @@ namespace Expense_Tracker.Controllers
             public string ReportString { get; set; }
         }
 
+        [HttpGet]
+        public IActionResult GetCategoriesByType(string selectedType)
+        {
+            string? userId = _userManager.GetUserId(HttpContext.User);
+
+            // Your logic to retrieve categories based on the selected type
+            var categories = _context.Categories
+                .Where(c => c.UserId == userId && (selectedType == "Both" || c.Type == selectedType))
+                .ToList();
+
+            return Json(categories);
+        }
+
 
 
     }
